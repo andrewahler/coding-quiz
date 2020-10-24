@@ -5,10 +5,7 @@ const quizContainer = document.getElementById('quiz');
 const resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
 
-
-buildQuiz();
-
-submitButton.addEventListener('click', showResults);
+submitButton.addEventListener('click', buildQuiz);
 const myQuestions = [
     {
       question: "Who invented JavaScript?",
@@ -37,11 +34,23 @@ const myQuestions = [
         d: "Application programming interface"
       },
       correctAnswer: "d"
+    },
+    {
+      question: "What is Vanderbilt Universities mascot?",
+      answers: {
+        a: "Wildcat",
+        b: "Commodore",
+        c: "Volunteer"
+      },
+      correctAnswer: "b"
+
+
     }
   ];
+  //buildQuiz();
   function buildQuiz(){
-    
-    const output = [];
+    submitButton.style.display="none"
+    let output = [];
   
     myQuestions.forEach(
       (currentQuestion, questionNumber) => {
@@ -70,6 +79,6 @@ const myQuestions = [
       }
     );
   
-
-    quizContainer.innerHTML = output.join('');
+    output+=`<button id="userresponse">Submit Response</button>`
+    quizContainer.innerHTML = output
   }
