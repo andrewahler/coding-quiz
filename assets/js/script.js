@@ -6,12 +6,17 @@ var timerobject
 const quizContainer = document.getElementById('quiz');
 const resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
+const saveButton = document.getElementById('saveUser');
+
+ 
 let qhtml = document.getElementById("question");
 let op1html = document.getElementById("option1")
 let op2html = document.getElementById("option2")
 let op3html = document.getElementById("option3")
 let ushtml = document.getElementById("userscore")
 let timerhtml = document.getElementById("timer")
+let userinhtml= document.getElementById("userinitials")
+let userhighscore= document.getElementById("highscore")
 
 submitButton.addEventListener('click', startQuiz);
 op1html.addEventListener("click",checkresult);
@@ -63,9 +68,9 @@ const myQuestions = [
     }
   ];
   var currentQuestion=0
-  //buildQuiz();
+
   function buildQuiz(){
-    // op1html.style.display="block";
+   
 
    console.log(myQuestions[currentQuestion], myQuestions[currentQuestion].answers.b)
   
@@ -75,43 +80,13 @@ const myQuestions = [
     op3html.innerText = myQuestions[currentQuestion].answers.c;
     console.log(op1html)
 
-    // let output = [];
-  
-    // myQuestions.forEach(
-    //   (currentQuestion, questionNumber) => {
-  
-      
-    //     const answers = [];
-  
-       
-    //     for(letter in currentQuestion.answers){
-  
-        
-    //       answers.push(
-    //         `<label>
-    //           <input type="radio" class="options" name="question${questionNumber}" value="${letter}">
-    //           ${letter} :
-    //           ${currentQuestion.answers[letter]}
-    //         </label>`
-    //       );
-    //     }
-  
-        
-    //     output.push(
-    //       `<div class="question"> ${currentQuestion.question} </div>
-    //       <div class="answers"> ${answers.join('')} </div>`
-    //     );
-    //   }
-    // );
-  
-    // output+=`<button id="userresponse" onclick="showResults()">Submit Response</button>`
-    // quizContainer.innerHTML = output
+    
   }
   function showResults(){
     quizContainer.style.display="none";
     resultsContainer.style.display="block";
     clearInterval(timerobject)
-    ushtml.textContent= "Right -"+right+" : Wrong -"+wrong
+    ushtml.textContent= "Correct -"+right+" : Incorrect -"+wrong
 
   }
 
@@ -153,3 +128,35 @@ buildQuiz()
       showResults()
     }
   }
+  function savescore(){
+    var initials=userinhtml.value.trim()
+    var highscore=ushtml.textContent;
+    var scoreArray= []
+
+    var newestScore = {
+      score: highscore, 
+      initials: initials
+    }
+
+    scoreArray.push(initials) 
+    console.log(scoreArray)
+    window.localStorage.setItem("scores",JSON.stringify(newestScore));
+    let locaThing = window.localStorage.getItem("scores");
+    
+    var score = 0;
+var highscore = localStorage.getItem("highscore");
+
+if(highscore !== null){
+    if (score > highscore) {
+        localStorage.setItem("highscore", score);      
+    }
+}
+else{
+    localStorage.setItem("highscore", score);
+}
+    
+  }
+
+  saveButton.onclick=savescore;
+
+  
