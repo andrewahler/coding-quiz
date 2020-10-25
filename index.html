@@ -10,14 +10,26 @@
 <body>
     <header class="jubotron text-center bg-info">
         <h1>Code Quiz</h1>
+        <h3 id=timer></h3>
      </header>
     <div class="container">
         <h2>This is a timed Question</h2>
         <button id="submit">Start Quiz</button>
     </div>
-    <div id="quiz" class="container"></div>
+    <div id="quiz" class="container">
+        <h5 id="question"></h5>
+        <button id="option1" value="a"></button>
+        <button id="option2" value="b"></button>
+        <button id="option3" value="c"></button>
+    
+    </div>
 
-<div id="results"></div>
+<div id="results">
+    <div id="scoredisplay"></div>
+    <h1 id="userscore"></h1>
+    <input id="userintiials" type="text" />
+    <button id="saveUSer">Save User Score</button>
+</div>
 <script src="./assets/js/script.js"></script>
 </body>
 </html>

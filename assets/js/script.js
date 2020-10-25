@@ -1,11 +1,27 @@
 function buildQuiz(){}
 function showResults(){}
+var timercount=60
+var timerobject
 
 const quizContainer = document.getElementById('quiz');
 const resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
+let qhtml = document.getElementById("question");
+let op1html = document.getElementById("option1")
+let op2html = document.getElementById("option2")
+let op3html = document.getElementById("option3")
+let ushtml = document.getElementById("userscore")
+let timerhtml = document.getElementById("timer")
 
-submitButton.addEventListener('click', buildQuiz);
+submitButton.addEventListener('click', startQuiz);
+op1html.addEventListener("click",checkresult);
+op2html.addEventListener("click",checkresult);
+op3html.addEventListener("click",checkresult);
+
+quizContainer.style.display="none";
+resultsContainer.style.display="none";
+let right = 0;
+let wrong = 0;
 const myQuestions = [
     {
       question: "Who invented JavaScript?",
@@ -30,10 +46,9 @@ const myQuestions = [
       answers: {
         a: "Angular percentage increment",
         b: "Annual Placement Incentive",
-        c: "Adjusted Price increase",
-        d: "Application programming interface"
+        c: "Application programming interface"
       },
-      correctAnswer: "d"
+      correctAnswer: "c"
     },
     {
       question: "What is Vanderbilt Universities mascot?",
@@ -47,38 +62,94 @@ const myQuestions = [
 
     }
   ];
+  var currentQuestion=0
   //buildQuiz();
   function buildQuiz(){
-    submitButton.style.display="none"
-    let output = [];
+    // op1html.style.display="block";
+
+   console.log(myQuestions[currentQuestion], myQuestions[currentQuestion].answers.b)
   
-    myQuestions.forEach(
-      (currentQuestion, questionNumber) => {
+    qhtml.textContent = myQuestions[currentQuestion].question;
+    op1html.textContent = myQuestions[currentQuestion].answers.a;
+    op2html.innerText = myQuestions[currentQuestion].answers.b;
+    op3html.innerText = myQuestions[currentQuestion].answers.c;
+    console.log(op1html)
+
+    // let output = [];
+  
+    // myQuestions.forEach(
+    //   (currentQuestion, questionNumber) => {
   
       
-        const answers = [];
+    //     const answers = [];
   
        
-        for(letter in currentQuestion.answers){
+    //     for(letter in currentQuestion.answers){
   
         
-          answers.push(
-            `<label>
-              <input type="radio" name="question${questionNumber}" value="${letter}">
-              ${letter} :
-              ${currentQuestion.answers[letter]}
-            </label>`
-          );
-        }
+    //       answers.push(
+    //         `<label>
+    //           <input type="radio" class="options" name="question${questionNumber}" value="${letter}">
+    //           ${letter} :
+    //           ${currentQuestion.answers[letter]}
+    //         </label>`
+    //       );
+    //     }
   
         
-        output.push(
-          `<div class="question"> ${currentQuestion.question} </div>
-          <div class="answers"> ${answers.join('')} </div>`
-        );
-      }
-    );
+    //     output.push(
+    //       `<div class="question"> ${currentQuestion.question} </div>
+    //       <div class="answers"> ${answers.join('')} </div>`
+    //     );
+    //   }
+    // );
   
-    output+=`<button id="userresponse">Submit Response</button>`
-    quizContainer.innerHTML = output
+    // output+=`<button id="userresponse" onclick="showResults()">Submit Response</button>`
+    // quizContainer.innerHTML = output
+  }
+  function showResults(){
+    quizContainer.style.display="none";
+    resultsContainer.style.display="block";
+    clearInterval(timerobject)
+    ushtml.textContent= "Right -"+right+" : Wrong -"+wrong
+
+  }
+
+  function checkresult(){
+
+  let userchoice = this.value
+  console.log(userchoice)
+    if(userchoice == myQuestions[currentQuestion].correctAnswer){
+      right++
+    }
+    else {
+      wrong++
+      timercount=timercount-5
+    }
+    if(currentQuestion < myQuestions.length-1){
+      currentQuestion++
+      buildQuiz()
+    }
+    else{
+      showResults()
+    }
+  }
+  function startQuiz(){
+timerobject=setInterval(clockdisplay,1000)
+submitButton.style.display="none";
+quizContainer.style.display="block";
+buildQuiz()
+
+
+  }
+
+  function clockdisplay(){
+    timerhtml.textContent = timercount
+    if( timercount > 0){
+      timercount--
+    }
+    else{
+      alert("Times UP!")
+      showResults()
+    }
   }
